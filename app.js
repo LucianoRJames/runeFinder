@@ -16,9 +16,27 @@ const stringParser = (equation) => {
   } else {
     throw new Error("The string must be in the form of an equation");
   }
-
   const firstNumber = equation.split(operator);
+  if (firstNumber.length > 2) {
+    throw new Error("The equation can only have 1 operator");
+  }
   const otherNumbers = firstNumber[1].split("=");
+  if (
+    Number.isNaN(Number(parseInt(firstNumber[0]))) === true &&
+    firstNumber[0].includes("?") === false
+  ) {
+    throw new Error("The equation must only contain numbers or ?");
+  } else if (
+    Number.isNaN(Number(parseInt(otherNumbers[0]))) === true &&
+    otherNumbers[0].includes("?") === false
+  ) {
+    throw new Error("The equation must only contain numbers or ?");
+  } else if (
+    Number.isNaN(Number(parseInt(otherNumbers[1]))) === true &&
+    otherNumbers[1].includes("?") === false
+  ) {
+    throw new Error("The equation must only contain numbers or ?");
+  }
   const splitArray = [
     firstNumber[0],
     operator,

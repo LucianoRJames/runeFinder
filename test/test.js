@@ -8,7 +8,7 @@ describe("missingNumberCalculator", function () {
   });
 
   it("Given the function receives an argument that is not of type string, it should return a type error", function () {
-    expect(app.stringParser.bind(app, 123)).to.throw(
+    expect(app.missingNumberCalculator.bind(app, 123)).to.throw(
       "Arguments must be of type String"
     );
   });
