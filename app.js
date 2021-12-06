@@ -6,11 +6,19 @@ const missingNumberCalculator = (equation) => {
 };
 
 const stringParser = (equation) => {
-  const firstNumber = equation.split("*");
+  let operator;
+  if (equation.includes("*")) {
+    operator = "*";
+  } else if (equation.includes("-")) {
+    operator = "-";
+  } else {
+    operator = "+";
+  }
+  const firstNumber = equation.split(operator);
   const otherNumbers = firstNumber[1].split("=");
   const splitArray = [
     firstNumber[0],
-    "*",
+    operator,
     otherNumbers[0],
     "=",
     otherNumbers[1],
