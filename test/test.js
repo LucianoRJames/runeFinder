@@ -8,12 +8,8 @@ describe("missingNumberCalculator", function () {
   });
 
   it("Given the function receives an argument that is not of type string, it should return a type error", function () {
-    assert.throws(
-      () => {
-        app.missingNumberCalculator(123);
-      },
-      Error,
-      "Type error: Arguments must be of type String"
+    expect(app.stringParser.bind(app, 123)).to.throw(
+      "Arguments must be of type String"
     );
   });
 
@@ -50,31 +46,20 @@ describe("stringParser", function () {
   });
 
   it("Given the function receives an equation that is in the incorrect format, it should return an error", function () {
-    assert.throws(
-      () => {
-        app.stringParser("testString");
-      },
-      Error,
-      "Error: The string must be in the form of an equation"
+    expect(app.stringParser.bind(app, "testString")).to.throw(
+      "The string must be in the form of an equation"
     );
   });
 
   it("Given the function receives an equation that has multiple operators, it should return an error", function () {
-    assert.throws(
-      () => {
-        app.stringParser("1+1+1=?");
-      },
-      Error,
-      "Error: The equation can only have 1 operator"
+    expect(app.stringParser.bind(app, "1+1+1=?")).to.throw(
+      "The equation can only have 1 operator"
     );
   });
+
   it("Given the function receives an equation that doesn't contain numbers or ?, it should return an error", function () {
-    assert.throws(
-      () => {
-        app.stringParser("test+string=?");
-      },
-      Error,
-      "Error: The equation must only contain numbers or ?"
+    expect(app.stringParser.bind(app, "test+string=?")).to.throw(
+      "The equation must only contain numbers or ?"
     );
   });
 });

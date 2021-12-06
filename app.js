@@ -1,6 +1,6 @@
 const missingNumberCalculator = (equation) => {
   if (typeof equation !== "string") {
-    throw new Error("Type error: arguments must be of type String");
+    throw new Error("Arguments must be of type String");
   }
   return 1;
 };
@@ -11,9 +11,12 @@ const stringParser = (equation) => {
     operator = "*";
   } else if (equation.includes("-")) {
     operator = "-";
-  } else {
+  } else if (equation.includes("+")) {
     operator = "+";
+  } else {
+    throw new Error("The string must be in the form of an equation");
   }
+
   const firstNumber = equation.split(operator);
   const otherNumbers = firstNumber[1].split("=");
   const splitArray = [
