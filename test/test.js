@@ -80,3 +80,13 @@ describe("questionmarkFinder", function () {
     expect(app.questionmarkFinder(["?", "+", "?", "=", "3"])).to.eql([0, 2]);
   });
 });
+
+describe("replaceQuestionmark", function () {
+  it("Given the function receives a string it should return an string", function () {
+    assert.equal(typeof app.replaceQuestionmark("12?", 3), "string");
+  });
+
+  it("Given the function receives a string containing a question mark and an integer, it should replace that ? with the integer", function () {
+    assert.equal(app.replaceQuestionmark("12?", 3), "123");
+  });
+});

@@ -3,7 +3,37 @@ const missingNumberCalculator = (equation) => {
     throw new Error("Arguments must be of type String");
   }
   const splitString = stringParser(equation);
-  return 1;
+  const positions = questionmarkFinder(splitString);
+  let result = -1;
+  for (let i = 0; i <= 9; i++) {
+    positions.forEach((element) => {
+      splitString[element].replace("?", i);
+    });
+
+    switch (splitString[1]) {
+      case "+":
+        if (splitString[0] + splitString[2] === splitString[4]) {
+          result = i;
+        }
+        break;
+
+      case "-":
+        if (splitString[0] - splitString[2] === splitString[4]) {
+          result = i;
+        }
+        break;
+
+      case "*":
+        if (splitString[0] * splitString[2] === splitString[4]) {
+          result = i;
+        }
+        break;
+
+      default:
+        throw new Error("The argument must be in the form of an equation");
+    }
+  }
+  return result;
 };
 
 const questionmarkFinder = (numbersArray) => {
