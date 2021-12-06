@@ -63,3 +63,20 @@ describe("stringParser", function () {
     );
   });
 });
+
+describe("questionmarkFinder", function () {
+  it("Given the function receives an array , it should return an array", function () {
+    assert.equal(
+      Array.isArray(app.questionmarkFinder(["1", "+", "1", "=", "?"])),
+      true
+    );
+  });
+
+  it("Given a number in the array has a ?, return an array containing the position of the number in the array", function () {
+    expect(app.questionmarkFinder(["?", "+", "1", "=", "3"])).to.eql([0]);
+  });
+
+  it("Given multiple numbers in the array has a ?, return an array containing the position of the numbers in the array", function () {
+    expect(app.questionmarkFinder(["?", "+", "?", "=", "3"])).to.eql([0, 2]);
+  });
+});

@@ -2,6 +2,7 @@ const missingNumberCalculator = (equation) => {
   if (typeof equation !== "string") {
     throw new Error("Arguments must be of type String");
   }
+  const splitString = stringParser(equation);
   return 1;
 };
 
