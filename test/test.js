@@ -28,6 +28,19 @@ describe("missingNumberCalculator", function () {
   it("Given the function receives a valid multiplication equation, it should return the value of the ?", function () {
     assert.equal(app.missingNumberCalculator("1*4=?"), 4);
   });
+  it("Given that one of the numbers in the equation is greater than 1000000, it should return an error", function () {
+    expect(app.missingNumberCalculator.bind(app, "1000001*4=?")).to.throw(
+      "Number is too large"
+    );
+  });
+  it("Given that one of the numbers in the equation is less than -1000000, it should return an error", function () {
+    expect(app.missingNumberCalculator.bind(app, "-1000001*4=?")).to.throw(
+      "Number is too small"
+    );
+  });
+  it("Given the function receives an equation with a negative number, it should return the value of the ?", function () {
+    assert.equal(app.missingNumberCalculator("-1*4=?"), -4);
+  });
 });
 
 describe("stringParser", function () {
