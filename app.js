@@ -7,7 +7,7 @@ const missingNumberCalculator = (equation) => {
   let result = -1;
   for (let i = 0; i <= 9; i++) {
     positions.forEach((element) => {
-      splitString[element].replace("?", i);
+      replaceQuestionmark(splitString[element], i);
     });
 
     switch (splitString[1]) {
@@ -34,6 +34,10 @@ const missingNumberCalculator = (equation) => {
     }
   }
   return result;
+};
+
+const replaceQuestionmark = (questionString, number) => {
+  return questionString.replace("?", number);
 };
 
 const questionmarkFinder = (numbersArray) => {
@@ -91,4 +95,5 @@ module.exports = {
   stringParser,
   missingNumberCalculator,
   questionmarkFinder,
+  replaceQuestionmark,
 };
