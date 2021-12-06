@@ -40,6 +40,6 @@ describe("stringParser", function () {
   });
 
   it("Given the function receives an equation, it should split the string into its components (number 1, operator, number 2, equals sign, number 3) as an array", function () {
-    assert.equal(app.stringParser("1*4=?"), ["1", "*", "4", "=", "?"]);
+    expect(app.stringParser("1*4=?")).to.eql(["1", "*", "4", "=", "?"]);
   });
 });
