@@ -7,8 +7,8 @@ const missingNumberCalculator = (equation) => {
   let result = -1;
   const unknownNumbers = [];
   for (let i = 0; i <= 9; i++) {
+    let counter = 0;
     positions.forEach((element) => {
-      let counter = 0;
       if (i === 0) {
         unknownNumbers.push(splitString[element]);
       }
@@ -96,7 +96,7 @@ const stringParser = (equation) => {
   ];
   return splitArray;
 };
-console.log(missingNumberCalculator("1?4+8=122"));
+console.log(missingNumberCalculator("123*45?=5?088"));
 module.exports = {
   stringParser,
   missingNumberCalculator,
