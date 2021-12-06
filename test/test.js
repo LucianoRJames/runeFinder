@@ -39,7 +39,13 @@ describe("stringParser", function () {
     assert.equal(Array.isArray(app.stringParser("1234")), true);
   });
 
-  it("Given the function receives an equation, it should split the string into its components (number 1, operator, number 2, equals sign, number 3) as an array", function () {
+  it("Given the function receives an multiplication equation, it should split the string into its components (number 1, operator, number 2, equals sign, number 3) as an array", function () {
     expect(app.stringParser("1*4=?")).to.eql(["1", "*", "4", "=", "?"]);
+  });
+  it("Given the function receives an substitution equation, it should split the string into its components (number 1, operator, number 2, equals sign, number 3) as an array", function () {
+    expect(app.stringParser("6-3=?")).to.eql(["6", "-", "3", "=", "?"]);
+  });
+  it("Given the function receives an addidion equation, it should split the string into its components (number 1, operator, number 2, equals sign, number 3) as an array", function () {
+    expect(app.stringParser("1+1=?")).to.eql(["1", "+", "1", "=", "?"]);
   });
 });
