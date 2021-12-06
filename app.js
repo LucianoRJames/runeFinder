@@ -5,32 +5,37 @@ const missingNumberCalculator = (equation) => {
   const splitString = stringParser(equation);
   const positions = questionmarkFinder(splitString);
   let result = -1;
+  const unknownNumbers = [];
   for (let i = 0; i <= 9; i++) {
     positions.forEach((element) => {
-      replaceQuestionmark(splitString[element], i);
+      let counter = 0;
+      if (i === 0) {
+        unknownNumbers.push(splitString[element]);
+      }
+      splitString[element] = replaceQuestionmark(unknownNumbers[counter], i);
+      i += 1;
     });
-
-    switch (splitString[1]) {
-      case "+":
-        if (splitString[0] + splitString[2] === splitString[4]) {
-          result = i;
-        }
-        break;
-
-      case "-":
-        if (splitString[0] - splitString[2] === splitString[4]) {
-          result = i;
-        }
-        break;
-
-      case "*":
-        if (splitString[0] * splitString[2] === splitString[4]) {
-          result = i;
-        }
-        break;
-
-      default:
-        throw new Error("The argument must be in the form of an equation");
+    if (splitString[1] === "+") {
+      if (
+        parseInt(splitString[0]) + parseInt(splitString[2]) ===
+        parseInt(splitString[4])
+      ) {
+        result = i;
+      }
+    } else if (splitString[1] === "-") {
+      if (
+        parseInt(splitString[0]) - parseInt(splitString[2]) ===
+        parseInt(splitString[4])
+      ) {
+        result = i;
+      }
+    } else {
+      if (
+        parseInt(splitString[0]) * parseInt(splitString[2]) ===
+        parseInt(splitString[4])
+      ) {
+        result = i;
+      }
     }
   }
   return result;
@@ -91,6 +96,7 @@ const stringParser = (equation) => {
   ];
   return splitArray;
 };
+missingNumberCalculator("1+1=?");
 module.exports = {
   stringParser,
   missingNumberCalculator,
