@@ -13,7 +13,7 @@ const missingNumberCalculator = (equation) => {
         unknownNumbers.push(splitString[element]);
       }
       splitString[element] = replaceQuestionmark(unknownNumbers[counter], i);
-      i += 1;
+      counter += 1;
     });
     if (splitString[1] === "+") {
       if (
@@ -96,7 +96,7 @@ const stringParser = (equation) => {
   ];
   return splitArray;
 };
-missingNumberCalculator("1+1=?");
+console.log(missingNumberCalculator("1?4+8=122"));
 module.exports = {
   stringParser,
   missingNumberCalculator,
