@@ -6,6 +6,16 @@ const missingNumberCalculator = (equation) => {
   return 1;
 };
 
+const questionmarkFinder = (numbersArray) => {
+  const positions = [];
+  for (let i = 0; i < numbersArray.length; i++) {
+    if (numbersArray[i].includes("?")) {
+      positions.push(i);
+    }
+  }
+  return positions;
+};
+
 const stringParser = (equation) => {
   let operator;
   if (equation.includes("*")) {
@@ -50,4 +60,5 @@ const stringParser = (equation) => {
 module.exports = {
   stringParser,
   missingNumberCalculator,
+  questionmarkFinder,
 };
