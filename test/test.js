@@ -41,6 +41,9 @@ describe("missingNumberCalculator", function () {
   it("Given the function receives an equation with a negative number, it should return the value of the ?", function () {
     assert.equal(app.missingNumberCalculator("-1*4=-?"), 4);
   });
+  it("Given the function receives an equation with a negative number and a subtraction, it should return the value of the ?", function () {
+    assert.equal(app.missingNumberCalculator("-1-4=-?"), 5);
+  });
 });
 
 describe("stringParser", function () {
