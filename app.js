@@ -15,6 +15,19 @@ const missingNumberCalculator = (equation) => {
       splitString[element] = replaceQuestionmark(unknownNumbers[counter], i);
       counter += 1;
     });
+    if (
+      parseInt(splitString[0]) > 1000000 ||
+      parseInt(splitString[2]) > 1000000 ||
+      parseInt(splitString[4]) > 1000000
+    ) {
+      throw new Error("Number is too large");
+    } else if (
+      parseInt(splitString[0]) < -1000000 ||
+      parseInt(splitString[2]) < -1000000 ||
+      parseInt(splitString[4]) < -1000000
+    ) {
+      throw new Error("Number is too small");
+    }
     if (splitString[1] === "+") {
       if (
         parseInt(splitString[0]) + parseInt(splitString[2]) ===
@@ -59,10 +72,10 @@ const stringParser = (equation) => {
   let operator;
   if (equation.includes("*")) {
     operator = "*";
-  } else if (equation.includes("-")) {
-    operator = "-";
   } else if (equation.includes("+")) {
     operator = "+";
+  } else if (equation.includes("-")) {
+    operator = "-";
   } else {
     throw new Error("The string must be in the form of an equation");
   }
@@ -96,7 +109,7 @@ const stringParser = (equation) => {
   ];
   return splitArray;
 };
-console.log(missingNumberCalculator("123*45?=5?088"));
+console.log(missingNumberCalculator("-1*4=?"));
 module.exports = {
   stringParser,
   missingNumberCalculator,

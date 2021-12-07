@@ -39,7 +39,7 @@ describe("missingNumberCalculator", function () {
     );
   });
   it("Given the function receives an equation with a negative number, it should return the value of the ?", function () {
-    assert.equal(app.missingNumberCalculator("-1*4=?"), -4);
+    assert.equal(app.missingNumberCalculator("-1*4=-?"), 4);
   });
 });
 
