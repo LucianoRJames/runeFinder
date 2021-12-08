@@ -50,6 +50,9 @@ describe("calculateMissingNumber", function () {
   it("Given the function receives an equation with ? in the middle of a number, it should return the value of the ?", function () {
     assert.equal(app.calculateMissingNumber("123*45?=5?088"), 6);
   });
+  it("Given the function receives an equation which has multiple possible values for ?, it should return the lowest value of the ?", function () {
+    assert.equal(app.calculateMissingNumber("11?+0=11?"), 0);
+  });
 });
 
 describe("getSplitEquation", function () {
