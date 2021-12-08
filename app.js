@@ -41,6 +41,7 @@ const calculateMissingNumber = (equation) => {
         parseInt(thirdNumber)
       ) {
         result = i;
+        break;
       }
     } else if (operator === "-") {
       if (
@@ -48,6 +49,7 @@ const calculateMissingNumber = (equation) => {
         parseInt(thirdNumber)
       ) {
         result = i;
+        break;
       }
     } else {
       if (
@@ -55,6 +57,7 @@ const calculateMissingNumber = (equation) => {
         parseInt(thirdNumber)
       ) {
         result = i;
+        break;
       }
     }
   }
