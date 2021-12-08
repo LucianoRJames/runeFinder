@@ -1,51 +1,58 @@
-const missingNumberCalculator = (equation) => {
+const calculateMissingNumber = (equation) => {
   if (typeof equation !== "string") {
     throw new Error("Arguments must be of type String");
   }
-  const splitString = stringParser(equation);
-  const positions = questionmarkFinder(splitString);
-  let result = -1;
+  const upperNumberLimit = 1000000;
+  const lowerNumberLimit = -1000000;
+  const maxPossibleNumber = 9;
+  const splitEquation = getSplitEquation(equation);
+  const unknownNumbersPositions = getUnknownNumbersPositions(splitEquation);
+  const operator = splitEquation[1];
   const unknownNumbers = [];
-  for (let i = 0; i <= 9; i++) {
+  let result = -1;
+  unknownNumbersPositions.forEach((index) => {
+    unknownNumbers.push(splitEquation[index]);
+  });
+  for (let i = 0; i <= maxPossibleNumber; i += 1) {
     let counter = 0;
-    positions.forEach((element) => {
-      if (i === 0) {
-        unknownNumbers.push(splitString[element]);
-      }
-      splitString[element] = replaceQuestionmark(unknownNumbers[counter], i);
+    unknownNumbersPositions.forEach((element) => {
+      splitEquation[element] = replaceQuestionmark(unknownNumbers[counter], i);
       counter += 1;
     });
+    const firstNumber = splitEquation[0];
+    const secondNumber = splitEquation[2];
+    const thirdNumber = splitEquation[4];
     if (
-      parseInt(splitString[0]) > 1000000 ||
-      parseInt(splitString[2]) > 1000000 ||
-      parseInt(splitString[4]) > 1000000
+      parseInt(firstNumber) > upperNumberLimit ||
+      parseInt(secondNumber) > upperNumberLimit ||
+      parseInt(thirdNumber) > upperNumberLimit
     ) {
       throw new Error("Number is too large");
     } else if (
-      parseInt(splitString[0]) < -1000000 ||
-      parseInt(splitString[2]) < -1000000 ||
-      parseInt(splitString[4]) < -1000000
+      parseInt(firstNumber) < lowerNumberLimit ||
+      parseInt(secondNumber) < lowerNumberLimit ||
+      parseInt(thirdNumber) < lowerNumberLimit
     ) {
       throw new Error("Number is too small");
     }
-    if (splitString[1] === "+") {
+    if (operator === "+") {
       if (
-        parseInt(splitString[0]) + parseInt(splitString[2]) ===
-        parseInt(splitString[4])
+        parseInt(firstNumber) + parseInt(secondNumber) ===
+        parseInt(thirdNumber)
       ) {
         result = i;
       }
-    } else if (splitString[1] === "-") {
+    } else if (operator === "-") {
       if (
-        parseInt(splitString[0]) - parseInt(splitString[2]) ===
-        parseInt(splitString[4])
+        parseInt(firstNumber) - parseInt(secondNumber) ===
+        parseInt(thirdNumber)
       ) {
         result = i;
       }
     } else {
       if (
-        parseInt(splitString[0]) * parseInt(splitString[2]) ===
-        parseInt(splitString[4])
+        parseInt(firstNumber) * parseInt(secondNumber) ===
+        parseInt(thirdNumber)
       ) {
         result = i;
       }
@@ -58,17 +65,17 @@ const replaceQuestionmark = (questionString, number) => {
   return questionString.replace("?", number);
 };
 
-const questionmarkFinder = (numbersArray) => {
-  const positions = [];
-  for (let i = 0; i < numbersArray.length; i++) {
+const getUnknownNumbersPositions = (numbersArray) => {
+  const unknownNumbersPositions = [];
+  for (let i = 0; i < numbersArray.length; i += 1) {
     if (numbersArray[i].includes("?")) {
-      positions.push(i);
+      unknownNumbersPositions.push(i);
     }
   }
-  return positions;
+  return unknownNumbersPositions;
 };
 
-const stringParser = (equation) => {
+const getSplitEquation = (equation) => {
   let operator;
   if (equation.includes("*")) {
     operator = "*";
@@ -79,40 +86,37 @@ const stringParser = (equation) => {
   } else {
     throw new Error("The string must be in the form of an equation");
   }
-  const firstNumber = equation.split(operator);
-  if (firstNumber.length > 2) {
+
+  const equationsplitByOperator = equation.split(operator);
+  const firstNumber = equationsplitByOperator[0];
+  if (equationsplitByOperator.length > 2) {
     throw new Error("The equation can only have 1 operator");
   }
-  const otherNumbers = firstNumber[1].split("=");
+  const equationsplitByEquals = equationsplitByOperator[1].split("=");
+  const secondNumber = equationsplitByEquals[0];
+  const thirdNumber = equationsplitByEquals[1];
   if (
-    Number.isNaN(Number(parseInt(firstNumber[0]))) === true &&
-    firstNumber[0].includes("?") === false
+    Number.isNaN(Number(parseInt(firstNumber))) &&
+    firstNumber.includes("?") === false
   ) {
     throw new Error("The equation must only contain numbers or ?");
   } else if (
-    Number.isNaN(Number(parseInt(otherNumbers[0]))) === true &&
-    otherNumbers[0].includes("?") === false
+    Number.isNaN(Number(parseInt(secondNumber))) &&
+    secondNumber.includes("?") === false
   ) {
     throw new Error("The equation must only contain numbers or ?");
   } else if (
-    Number.isNaN(Number(parseInt(otherNumbers[1]))) === true &&
-    otherNumbers[1].includes("?") === false
+    Number.isNaN(Number(parseInt(thirdNumber))) &&
+    thirdNumber.includes("?") === false
   ) {
     throw new Error("The equation must only contain numbers or ?");
   }
-  const splitArray = [
-    firstNumber[0],
-    operator,
-    otherNumbers[0],
-    "=",
-    otherNumbers[1],
-  ];
-  return splitArray;
+  const splitEquation = [firstNumber, operator, secondNumber, "=", thirdNumber];
+  return splitEquation;
 };
-console.log(missingNumberCalculator("-1*4=?"));
 module.exports = {
-  stringParser,
-  missingNumberCalculator,
-  questionmarkFinder,
+  getSplitEquation,
+  calculateMissingNumber,
+  getUnknownNumbersPositions,
   replaceQuestionmark,
 };
