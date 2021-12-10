@@ -76,7 +76,7 @@ describe("getSplitEquation", function () {
 
   it("Given the function receives an equation that is in the incorrect format, it should return an error", function () {
     expect(getSplitEquation.bind(app, "testString")).to.throw(
-      "The string must be in the form of an equation"
+      "The string must be in the form of an equation and only contain numbers or ?"
     );
   });
 
@@ -88,7 +88,7 @@ describe("getSplitEquation", function () {
 
   it("Given the function receives an equation that doesn't contain numbers or ?, it should return an error", function () {
     expect(getSplitEquation.bind(app, "test+string=?")).to.throw(
-      "The equation must only contain numbers or ?"
+      "The string must be in the form of an equation and only contain numbers or ?"
     );
   });
 });

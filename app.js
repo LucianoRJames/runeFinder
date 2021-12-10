@@ -80,24 +80,33 @@ const getUnknownNumbersPositions = (numbersArray) => {
 
 const getSplitEquation = (equation) => {
   let operator;
-  if (equation.includes("*")) {
+  const maxPossibleNumbers = 3;
+  const multiplicationRegex = /-?[0-9|?]+[*]-?[0-9|?]+=-?[0-9|?]+/;
+  const subtractionRegex = /-?[0-9|?]+[\-]-?[0-9|?]+=-?[0-9|?]+/;
+  const additionRegex = /-?[0-9|?]+[+]-?[0-9|?]+=-?[0-9|?]+/;
+  const numberRegex = /-?[0-9|?]+/g;
+  const secondNumberCheckRegex = /[0-9|?]-[0-9|?]/g;
+  if (multiplicationRegex.test(equation)) {
     operator = "*";
-  } else if (equation.includes("+")) {
+  } else if (additionRegex.test(equation)) {
     operator = "+";
-  } else if (equation.includes("-")) {
+  } else if (subtractionRegex.test(equation)) {
     operator = "-";
   } else {
-    throw new Error("The string must be in the form of an equation");
+    throw new Error(
+      "The string must be in the form of an equation and only contain numbers or ?"
+    );
   }
-
-  const equationsplitByOperator = equation.split(operator);
-  const firstNumber = equationsplitByOperator[0];
-  if (equationsplitByOperator.length > 2) {
+  const equationsplitIntoNumbers = equation.match(numberRegex);
+  if (equationsplitIntoNumbers.length > maxPossibleNumbers) {
     throw new Error("The equation can only have 1 operator");
   }
-  const equationsplitByEquals = equationsplitByOperator[1].split("=");
-  const secondNumber = equationsplitByEquals[0];
-  const thirdNumber = equationsplitByEquals[1];
+  const firstNumber = equationsplitIntoNumbers[0];
+  let secondNumber = equationsplitIntoNumbers[1];
+  if (secondNumberCheckRegex.test(equation)) {
+    secondNumber = secondNumber.substring(1);
+  }
+  const thirdNumber = equationsplitIntoNumbers[2];
   if (
     Number.isNaN(Number(parseInt(firstNumber))) &&
     firstNumber.includes("?") === false
