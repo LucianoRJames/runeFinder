@@ -1,6 +1,10 @@
 const assert = require("assert");
 const { expect } = require("chai");
-const app = require("../App");
+const rewire = require("rewire");
+const app = rewire("../App");
+const getSplitEquation = app.__get__("getSplitEquation");
+const getUnknownNumbersPositions = app.__get__("getUnknownNumbersPositions");
+const replaceQuestionmark = app.__get__("replaceQuestionmark");
 
 describe("calculateMissingNumber", function () {
   it("Given the function receives a string it should return an integer", function () {
@@ -57,33 +61,33 @@ describe("calculateMissingNumber", function () {
 
 describe("getSplitEquation", function () {
   it("Given the function receives a string it should return an array", function () {
-    assert.equal(Array.isArray(app.getSplitEquation("1+1=?")), true);
+    assert.equal(Array.isArray(getSplitEquation("1+1=?")), true);
   });
 
   it("Given the function receives an multiplication equation, it should split the string into its components (number 1, operator, number 2, equals sign, number 3) as an array", function () {
-    expect(app.getSplitEquation("1*4=?")).to.eql(["1", "*", "4", "=", "?"]);
+    expect(getSplitEquation("1*4=?")).to.eql(["1", "*", "4", "=", "?"]);
   });
   it("Given the function receives an substitution equation, it should split the string into its components (number 1, operator, number 2, equals sign, number 3) as an array", function () {
-    expect(app.getSplitEquation("6-3=?")).to.eql(["6", "-", "3", "=", "?"]);
+    expect(getSplitEquation("6-3=?")).to.eql(["6", "-", "3", "=", "?"]);
   });
   it("Given the function receives an addidion equation, it should split the string into its components (number 1, operator, number 2, equals sign, number 3) as an array", function () {
-    expect(app.getSplitEquation("1+1=?")).to.eql(["1", "+", "1", "=", "?"]);
+    expect(getSplitEquation("1+1=?")).to.eql(["1", "+", "1", "=", "?"]);
   });
 
   it("Given the function receives an equation that is in the incorrect format, it should return an error", function () {
-    expect(app.getSplitEquation.bind(app, "testString")).to.throw(
+    expect(getSplitEquation.bind(app, "testString")).to.throw(
       "The string must be in the form of an equation"
     );
   });
 
   it("Given the function receives an equation that has multiple operators, it should return an error", function () {
-    expect(app.getSplitEquation.bind(app, "1+1+1=?")).to.throw(
+    expect(getSplitEquation.bind(app, "1+1+1=?")).to.throw(
       "The equation can only have 1 operator"
     );
   });
 
   it("Given the function receives an equation that doesn't contain numbers or ?, it should return an error", function () {
-    expect(app.getSplitEquation.bind(app, "test+string=?")).to.throw(
+    expect(getSplitEquation.bind(app, "test+string=?")).to.throw(
       "The equation must only contain numbers or ?"
     );
   });
@@ -92,19 +96,17 @@ describe("getSplitEquation", function () {
 describe("getUnknownNumbersPositions", function () {
   it("Given the function receives an array , it should return an array", function () {
     assert.equal(
-      Array.isArray(app.getUnknownNumbersPositions(["1", "+", "1", "=", "?"])),
+      Array.isArray(getUnknownNumbersPositions(["1", "+", "1", "=", "?"])),
       true
     );
   });
 
   it("Given a number in the array has a ?, return an array containing the position of the number in the array", function () {
-    expect(app.getUnknownNumbersPositions(["?", "+", "1", "=", "3"])).to.eql([
-      0,
-    ]);
+    expect(getUnknownNumbersPositions(["?", "+", "1", "=", "3"])).to.eql([0]);
   });
 
   it("Given multiple numbers in the array has a ?, return an array containing the position of the numbers in the array", function () {
-    expect(app.getUnknownNumbersPositions(["?", "+", "1?", "=", "3"])).to.eql([
+    expect(getUnknownNumbersPositions(["?", "+", "1?", "=", "3"])).to.eql([
       0, 2,
     ]);
   });
@@ -112,10 +114,10 @@ describe("getUnknownNumbersPositions", function () {
 
 describe("replaceQuestionmark", function () {
   it("Given the function receives a string it should return an string", function () {
-    assert.equal(typeof app.replaceQuestionmark("12?", 3), "string");
+    assert.equal(typeof replaceQuestionmark("12?", 3), "string");
   });
 
   it("Given the function receives a string containing a question mark and an integer, it should replace that ? with the integer", function () {
-    assert.equal(app.replaceQuestionmark("12?", 3), "123");
+    assert.equal(replaceQuestionmark("12?", 3), "123");
   });
 });

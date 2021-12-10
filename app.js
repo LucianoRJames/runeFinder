@@ -118,8 +118,5 @@ const getSplitEquation = (equation) => {
   return splitEquation;
 };
 module.exports = {
-  getSplitEquation,
   calculateMissingNumber,
-  getUnknownNumbersPositions,
-  replaceQuestionmark,
 };
